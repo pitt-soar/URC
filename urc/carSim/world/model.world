@@ -1,0 +1,22 @@
+<?xml version="1.0"?/>
+
+<sdf>
+	<world name="default"/>
+		<include>
+			<url>model://ground_plane</url>
+		</include>
+		
+		<include>
+			<url>model://sun</url>
+		</include>
+		
+		<include>
+			<url>model://car</url>
+		</include>
+		
+		<include>
+			<url>model://Walls</url>
+		</include>
+	</world>
+</sdf>
+	

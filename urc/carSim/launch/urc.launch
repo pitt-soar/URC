@@ -1,0 +1,12 @@
+<launch>
+    <!--    Axes -->
+        <param name="axis_linear" value="1" type="int"/>
+        <param name="axis_angular" value="0" type="int"/>
+        <param name="axis_strafe" value="2" type="int"/>
+
+        <param name="scale_linear" value="1" type="double"/>
+        <param name="scale_angular" value="1" type="double"/>
+        <param name="scale_strafe" value="1" type="double"/>
+        <node pkg="teleop_twist_keyboard" type="key_control.cpp" name="teleop"/>
+
+</launch>
