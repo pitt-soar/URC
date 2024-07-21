@@ -106,10 +106,10 @@ class MainWindow(QWidget):
             self.backward()
         if keyEvent == "A":
             print("Left")
-            self.right()
+            self.left()
         if keyEvent == "D":
             print("Right")
-            self.left()
+            self.right()
         if keyEvent == "shift":
             print("Speed Up")
             self.speed_up()
