@@ -1,5 +1,7 @@
 # Contributing
 
+<!-- todo: add commands -->
+
 This is a simple guide for contributing to Pitt's University Rover Challenge. If you have any questions, please either contact Nick or Alex.
 
 1. The main branch is protected, you can not directly push commits to this branch. The main branch is considered the most recent production-ready code.
