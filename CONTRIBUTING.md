@@ -5,7 +5,7 @@ This is a simple guide for contributing to Pitt's University Rover Challenge. If
 1. The main branch is protected, you can not directly push commits to this branch. The main branch is considered the most recent production-ready code.
 
 2. To perform work, please create a new branch to push commits into.
-  * The process should be: `git add .` -> `git commit -m "explain here"` -> `git push`
+    * The process should be: `git add .` -> `git commit -m "explain here"` -> `git push`
 
 3. When you have finished and tested your code, make a pull request. You need one approval to merge any commits into the main branch.
 
