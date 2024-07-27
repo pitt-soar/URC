@@ -20,6 +20,7 @@ serMotor = serial.Serial(commPort, baudrate=115200)
 class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
+        self.speed = 0
         self.UI()
 
     def UI(self):
@@ -47,6 +48,10 @@ class MainWindow(QWidget):
         enable_button = QPushButton("Enable")
         disable_button = QPushButton("Disable")
 
+        self.le1 = QLabel("Set Speed (UP/DOWN): " + str(self.speed))
+        self.btn2 = QPushButton("Enter an integer")
+        self.btn2.clicked.connect(self.getint)
+
         top_left_layout.addWidget(forward_button, 0, 1)
         top_left_layout.addWidget(left_button, 1, 0)
         top_left_layout.addWidget(backwards_button, 1, 1)
@@ -55,6 +60,10 @@ class MainWindow(QWidget):
         top_left_layout.addWidget(stop_button, 3, 0)
         top_left_layout.addWidget(enable_button, 2, 2)
         top_left_layout.addWidget(disable_button, 3, 2)
+
+        top_left_layout.addWidget(self.le1, 2, 1)
+        top_left_layout.addWidget(self.btn2, 3, 1)
+
         top_right_layout.addWidget(QLabel("arm controls here"), 0, 0)
         bottom_layout.addWidget(QLabel("cameras/sensors here"), 0, 0)
 
@@ -64,6 +73,12 @@ class MainWindow(QWidget):
         main_layout.addLayout(bottom_layout)
 
         self.setLayout(main_layout)
+
+    def getint(self):
+        num, ok = QInputDialog.getInt(self, "integer input dualog", "enter a number")
+        if ok:
+            self.speed = num
+            self.le1.setText("Set Speed (UP/DOWN): " + str(self.speed))
 
     def forwardButton(self, event):
         self.motorEvent("W")
@@ -119,21 +134,29 @@ class MainWindow(QWidget):
 
     def foward(self):
         serMotor.write("1".encode())
+        return
 
     def backward(self):
         serMotor.write("2".encode())
+        return
 
     def left(self):
         serMotor.write("3".encode())
+        return
 
     def right(self):
         serMotor.write("4".encode())
+        return
 
     def speed_up(self):
         serMotor.write("5".encode())
+        serMotor.write(self.speed.encode())
+        return
 
     def stop(self):
         serMotor.write("6".encode())
+        serMotor.write(self.speed.encode())
+        return
 
 
 """
