@@ -155,7 +155,6 @@ class MainWindow(QWidget):
 
     def stop(self):
         serMotor.write("6".encode())
-        serMotor.write(self.speed.encode())
         return
 
 
