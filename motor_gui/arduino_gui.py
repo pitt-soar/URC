@@ -43,7 +43,7 @@ class RepeatedTimer(object):
 # buttons and keyboard control for motor and arms
 
 
-commPort = "/dev/ttyACM0"
+commPort = "/dev/ttyACM1"
 serMotor = serial.Serial(commPort, baudrate=115200)
 
 
@@ -112,29 +112,30 @@ class MainWindow(QWidget):
         self.setLayout(main_layout)
 
     def getUltraSonicData(self):
-        read = serMotor.readline().decode("utf-8")
-        # 32,43,54
-        # in centimeters
-        # read = (
-        #    str(math.floor(random.random() * 100))
-        #    + ","
-        #    + str(math.floor(random.random() * 100))
-        #    + ","
-        #    + str(math.floor(random.random() * 100))
-        # )
+        while(serMotor.in_waiting > 0):
+            read = serMotor.readline().decode("utf-8")
+            # 32,43,54
+            # in centimeters
+            # read = (
+            #    str(math.floor(random.random() * 100))
+            #    + ","
+            #    + str(math.floor(random.random() * 100))
+            #    + ","
+            #    + str(math.floor(random.random() * 100))
+            # )
 
-        read = read.split(",")
+            read = read.split(",")
 
-        res = []
-        for val in read:
-            res.append(int(val))
+            res = []
+            for i in range(3):
+                res.append(float(read[i]))
 
-        self.ultrasonic = res
+            self.ultrasonic = res
 
-        for i in range(len(self.ultrasonic)):
-            self.ultrasonicLabels[i].setText(
-                "Ultrasonic " + str(i) + ": " + str(self.ultrasonic[i])
-            )
+            for i in range(len(self.ultrasonic)):
+                self.ultrasonicLabels[i].setText(
+                    "Ultrasonic " + str(i) + ": " + str(self.ultrasonic[i])
+                )
 
     def getint(self):
         num, ok = QInputDialog.getInt(self, "integer input dualog", "enter a number")
