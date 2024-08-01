@@ -4,6 +4,36 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import *
 from PyQt5 import *
+from threading import Timer
+import math
+import random
+
+
+# https://stackoverflow.com/a/13151299
+class RepeatedTimer(object):
+    def __init__(self, interval, function, *args, **kwargs):
+        self._timer = None
+        self.interval = interval
+        self.function = function
+        self.args = args
+        self.kwargs = kwargs
+        self.is_running = False
+        self.start()
+
+    def _run(self):
+        self.is_running = False
+        self.start()
+        self.function(*self.args, **self.kwargs)
+
+    def start(self):
+        if not self.is_running:
+            self._timer = Timer(self.interval, self._run)
+            self._timer.start()
+            self.is_running = True
+
+    def stop(self):
+        self._timer.cancel()
+        self.is_running = False
 
 
 # Top-left - motor controls
@@ -21,6 +51,8 @@ class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
         self.speed = 0
+        self.ultrasonic = [0, 0, 0]
+        self.ultrasonicLabels = [QLabel(""), QLabel(""), QLabel("")]
         self.UI()
 
     def UI(self):
@@ -65,7 +97,12 @@ class MainWindow(QWidget):
         top_left_layout.addWidget(self.btn2, 3, 1)
 
         top_right_layout.addWidget(QLabel("arm controls here"), 0, 0)
-        bottom_layout.addWidget(QLabel("cameras/sensors here"), 0, 0)
+        # bottom_layout.addWidget(QLabel("cameras/sensors here"), 0, 0)
+
+        for i in range(len(self.ultrasonic)):
+            bottom_layout.addWidget(self.ultrasonicLabels[i], i, 0)
+
+        rt = RepeatedTimer(0.1, self.getUltraSonicData)
 
         top_layout.addLayout(top_left_layout)
         top_layout.addLayout(top_right_layout)
@@ -73,6 +110,31 @@ class MainWindow(QWidget):
         main_layout.addLayout(bottom_layout)
 
         self.setLayout(main_layout)
+
+    def getUltraSonicData(self):
+        read = serMotor.readline().decode("utf-8")
+        # 32,43,54
+        # in centimeters
+        # read = (
+        #    str(math.floor(random.random() * 100))
+        #    + ","
+        #    + str(math.floor(random.random() * 100))
+        #    + ","
+        #    + str(math.floor(random.random() * 100))
+        # )
+
+        read = read.split(",")
+
+        res = []
+        for val in read:
+            res.append(int(val))
+
+        self.ultrasonic = res
+
+        for i in range(len(self.ultrasonic)):
+            self.ultrasonicLabels[i].setText(
+                "Ultrasonic " + str(i) + ": " + str(self.ultrasonic[i])
+            )
 
     def getint(self):
         num, ok = QInputDialog.getInt(self, "integer input dualog", "enter a number")
@@ -155,6 +217,7 @@ class MainWindow(QWidget):
 
     def stop(self):
         serMotor.write("6".encode())
+        # serMotor.write(self.speed.encode())
         return
 
 
