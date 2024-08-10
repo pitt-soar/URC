@@ -140,7 +140,7 @@ class MainWindow(QWidget):
     #             )
 
     def getint(self):
-        num, ok = QInputDialog.getInt(self, "integer input dualog", "enter a number")
+        num, ok = QInputDialog.getInt(self, "integer input dualog", "enter a number (10-255)")
         if ok:
             self.speed = num
             self.le1.setText("Set Speed (UP/DOWN): " + str(self.speed))
