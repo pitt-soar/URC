@@ -43,7 +43,7 @@ class RepeatedTimer(object):
 # buttons and keyboard control for motor and arms
 
 
-commPort = "/dev/ttyACM1"
+commPort = "/dev/ttyACM0"
 serMotor = serial.Serial(commPort, baudrate=115200)
 
 
@@ -99,10 +99,10 @@ class MainWindow(QWidget):
         top_right_layout.addWidget(QLabel("arm controls here"), 0, 0)
         # bottom_layout.addWidget(QLabel("cameras/sensors here"), 0, 0)
 
-        for i in range(len(self.ultrasonic)):
-            bottom_layout.addWidget(self.ultrasonicLabels[i], i, 0)
+        # for i in range(len(self.ultrasonic)):
+        #     bottom_layout.addWidget(self.ultrasonicLabels[i], i, 0)
 
-        rt = RepeatedTimer(0.1, self.getUltraSonicData)
+        # rt = RepeatedTimer(0.1, self.getUltraSonicData)
 
         top_layout.addLayout(top_left_layout)
         top_layout.addLayout(top_right_layout)
@@ -111,31 +111,33 @@ class MainWindow(QWidget):
 
         self.setLayout(main_layout)
 
-    def getUltraSonicData(self):
-        while(serMotor.in_waiting > 0):
-            read = serMotor.readline().decode("utf-8")
-            # 32,43,54
-            # in centimeters
-            # read = (
-            #    str(math.floor(random.random() * 100))
-            #    + ","
-            #    + str(math.floor(random.random() * 100))
-            #    + ","
-            #    + str(math.floor(random.random() * 100))
-            # )
+    # commPort = "/dev/ttyACM2"
+    # serMotor = serial.Serial(commPort, baudrate=115200)
+    # def getUltraSonicData(self):
+    #     while(serMotor.in_waiting > 0):
+    #         read = serMotor.readline().decode("utf-8")
+    #         # 32,43,54
+    #         # in centimeters
+    #         # read = (
+    #         #    str(math.floor(random.random() * 100))
+    #         #    + ","
+    #         #    + str(math.floor(random.random() * 100))
+    #         #    + ","
+    #         #    + str(math.floor(random.random() * 100))
+    #         # )
 
-            read = read.split(",")
+    #         read = read.split(",")
 
-            res = []
-            for i in range(3):
-                res.append(float(read[i]))
+    #         res = []
+    #         for i in range(3):
+    #             res.append(float(read[i]))
 
-            self.ultrasonic = res
+    #         self.ultrasonic = res
 
-            for i in range(len(self.ultrasonic)):
-                self.ultrasonicLabels[i].setText(
-                    "Ultrasonic " + str(i) + ": " + str(self.ultrasonic[i])
-                )
+    #         for i in range(len(self.ultrasonic)):
+    #             self.ultrasonicLabels[i].setText(
+    #                 "Ultrasonic " + str(i) + ": " + str(self.ultrasonic[i])
+    #             )
 
     def getint(self):
         num, ok = QInputDialog.getInt(self, "integer input dualog", "enter a number")
@@ -212,8 +214,9 @@ class MainWindow(QWidget):
         return
 
     def speed_up(self):
-        serMotor.write("5".encode())
-        serMotor.write(self.speed.encode())
+        # serMotor.write("5".encode())
+        serMotor.write(str(self.speed).encode())
+        # serMotor.write("150".encode())
         return
 
     def stop(self):

@@ -94,9 +94,8 @@ void right() {
   analogWrite(PWM2Back, pwmSpeed);
 }
 
-void boost(int pwmSpeed, int newSpeed) {
-  newSpeed = 150;
-  while (pwmSpeed <= newSpeed){
+int boost(int pwmSpeed, int speedChange) {
+  while (pwmSpeed < speedChange){
     digitalWrite(DIR1Front, HIGH);
     digitalWrite(DIR1Middle, HIGH);
     digitalWrite(DIR1Back, HIGH);
@@ -113,10 +112,11 @@ void boost(int pwmSpeed, int newSpeed) {
     Serial.println(pwmSpeed);
     delay(10);
   }
+  return pwmSpeed;
 }
 
 void stopAll() {
-  while (pwmSpeed >= 0){
+  while (pwmSpeed > 0){
     digitalWrite(DIR1Front, HIGH);
     digitalWrite(DIR1Middle, HIGH);
     digitalWrite(DIR1Back, HIGH);
@@ -133,9 +133,16 @@ void stopAll() {
     Serial.println(pwmSpeed);
 //    delay(10);
   }
+  analogWrite(PWM1Front, 0);
+  analogWrite(PWM1Middle, 0);
+  analogWrite(PWM1Back, 0);
+  analogWrite(PWM2Front, 0);
+  analogWrite(PWM2Middle, 0);
+  analogWrite(PWM2Back, 0);
 }
 
 void loop() {
+  
   String input = Serial.readString();
   input.trim();
   if (!(input.equals("")))
@@ -145,30 +152,35 @@ void loop() {
     Serial.println(input.equals("1"));
     if (input.equals("1"))
     {
+      pwmSpeed = 50;
       Serial.println("Moving forward");
       foward();
     }
     else if(input.equals("2")){
+      pwmSpeed = 50;
       Serial.println("Moving reverse");
       reverse();
     }
     else if(input.equals("3")){
+      pwmSpeed = 50;
       Serial.println("Turn Left");
       left();
     }
     else if(input.equals("4")){
+      pwmSpeed = 50;
       Serial.println("Turn Right");
       right();
-    }
-    else if (input.equals("5")){
-      Serial.println("Boost!");
-      //int pwmSpeed = Serial.parseInt();
-      boost(pwmSpeed, Serial.parseInt());
     }
     else if (input.equals("6")){
       Serial.println("STOP!");
       stopAll();
     }
+    else {
+      int changeSpeed = input.toInt();
+      Serial.println("Boost!");
+      pwmSpeed = boost(pwmSpeed, changeSpeed);
+    }
   }
+  Serial.flush();
   input = "0";
 }
