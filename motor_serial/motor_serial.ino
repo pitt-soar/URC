@@ -68,27 +68,27 @@ void left() {
   digitalWrite(DIR1Front, HIGH);
   digitalWrite(DIR1Middle, HIGH);
   digitalWrite(DIR1Back, HIGH);
+  digitalWrite(DIR2Front, LOW);
+  digitalWrite(DIR2Middle, LOW);
+  digitalWrite(DIR2Back, LOW);
+  analogWrite(PWM1Front, pwmSpeed);
+  analogWrite(PWM1Middle, pwmSpeed);
+  analogWrite(PWM1Back, pwmSpeed);
+  analogWrite(PWM2Front, pwmSpeed);
+  analogWrite(PWM2Middle, pwmSpeed);
+  analogWrite(PWM2Back, pwmSpeed);
+}
+
+void right() {
+  digitalWrite(DIR1Front, LOW);
+  digitalWrite(DIR1Middle, LOW);
+  digitalWrite(DIR1Back, LOW);
   digitalWrite(DIR2Front, HIGH);
   digitalWrite(DIR2Middle, HIGH);
   digitalWrite(DIR2Back, HIGH);
   analogWrite(PWM1Front, pwmSpeed);
   analogWrite(PWM1Middle, pwmSpeed);
   analogWrite(PWM1Back, pwmSpeed);
-  analogWrite(PWM2Front, 0);
-  analogWrite(PWM2Middle, 0);
-  analogWrite(PWM2Back, 0);
-}
-
-void right() {
-  digitalWrite(DIR1Front, HIGH);
-  digitalWrite(DIR1Middle, HIGH);
-  digitalWrite(DIR1Back, HIGH);
-  digitalWrite(DIR2Front, HIGH);
-  digitalWrite(DIR2Middle, HIGH);
-  digitalWrite(DIR2Back, HIGH);
-  analogWrite(PWM1Front, 0);
-  analogWrite(PWM1Middle, 0);
-  analogWrite(PWM1Back, 0);
   analogWrite(PWM2Front, pwmSpeed);
   analogWrite(PWM2Middle, pwmSpeed);
   analogWrite(PWM2Back, pwmSpeed);
