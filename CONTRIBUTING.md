@@ -1,6 +1,6 @@
 # Contributing
 
-This is a simple guide for contributing to Pitt's University Rover Challenge. If you have any questions, please contact either Nick Ferguson or Alexander Kwasinski.
+This is a simple guide for contributing to Pitt's University Rover Challenge. If you have any questions, please contact either Nick Ferguson or Alexander Kwasinski. For an in-depth guide, use [MIT's missing semester](https://missing.csail.mit.edu/2020/version-control/).
 
 1. The main branch is protected, you can not directly push commits to this branch. The main branch is considered the most recent production-ready code for the rover.
 
