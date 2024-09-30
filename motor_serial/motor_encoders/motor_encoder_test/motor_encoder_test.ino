@@ -60,8 +60,8 @@ void handleEncoder() {
 void moveMotor(int dirPin, int pwmPin, float u){
   //Maximum motor speed
   float pwmspeed = fabs(u);
-  if (pwmspeed > 255) {
-    pwmspeed = 255;
+  if (pwmspeed > 100) {
+    pwmspeed = 100;
   }
   
   //set the direction
