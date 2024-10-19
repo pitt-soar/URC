@@ -5,13 +5,11 @@
 #define DIR2 52
 #define PWM2 3
 
-int encoderCount;
 int dir = 0;  // cw = 1; ccw = -1
 int countA = 0;
 int countB = 0;
-int timePassed;
-int speedCounter = 0;
-int timeCounter = 0;
+double pwmspeed = 255;
+int rotations = 5;
 
 void setup() {
   Serial.begin(9600);
@@ -28,33 +26,27 @@ void setup() {
 
 //find counts per second
 void loop() {
-  double timePassed = micros()/1e6;
-  int pwmspeed = 20;
-  if(pwmspeed + speedCounter < 110) {
-    if(timePassed < (10 + timeCounter)) {
-      analogWrite(PWM2, pwmspeed + speedCounter);
-  //    Serial.println("run");
-  //    Serial.println(timePassed);
-  //    Serial.println(pwmspeed + i);
-    } else {
-      Serial.println("Speed: ");
-      Serial.println(speedCounter + pwmspeed);
-      Serial.print(timePassed - 2*(timeCounter / 3));
-      Serial.print('\t');
-      Serial.print(countA);
-      Serial.print('\t');
-      Serial.println();
-      countA = 0;
-      speedCounter += 10;
-      analogWrite(PWM2, 0);
-      timeCounter += 30;
-      delay(20000);
-      Serial.println();
-      analogWrite(PWM2, pwmspeed + speedCounter);
-    }
+  double rps = 130 / 60;
+  double rotationsAtSpeed = rps * (pwmspeed/255);
+  double timePerRotation = 1.00/rotationsAtSpeed;
+//  Serial.println(rps);
+//  Serial.println(rotationsAtSpeed);
+  double timePassed = micros() / 1e6;
+  if(timePassed < (timePerRotation * rotations)) {
+//    Serial.println(timePerRotation * rotations);
+    Serial.println(timePassed);
+    analogWrite(PWM2, pwmspeed);
+    
   } else {
+    Serial.println();
     analogWrite(PWM2, 0);
+    Serial.println(countA);
+    Serial.print("Count per rotation: ");
+    Serial.println(countA / rotations);
   }
+
+  
+  
 }
 
 double revolutions(int count) {
