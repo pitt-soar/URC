@@ -24,6 +24,7 @@ void loop() {
       // Check if the sentence starts with "GPGGA" (GPS fix data)
       if (sentence.startsWith("GPGGA")) {
         // Print the GPS data to the serial monitor
+        //prints time, latitude, N or S, Longitude, E or W, GPS quality indicator, Number of satellites, Antenna altitude,  meters
         Serial.println(sentence);
       }
     }
