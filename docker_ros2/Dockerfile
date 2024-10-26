@@ -1,3 +1,4 @@
+# https://www.enthusiasticroboticist.com/blog/ros-2-on-jetson-nano-using-docker/
 # https://www.docker.com/blog/faster-multi-platform-builds-dockerfile-cross-compilation-guide/
 
 FROM nvcr.io/nvidia/cudagl:11.4.2-devel-ubuntu18.04 as amd64_base
