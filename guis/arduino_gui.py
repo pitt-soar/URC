@@ -43,8 +43,8 @@ class RepeatedTimer(object):
 # buttons and keyboard control for motor and arms
 
 
-commPort = "/dev/ttyACM0"
-serMotor = serial.Serial(commPort, baudrate=115200)
+# commPort = "/dev/ttyACM0"
+# serMotor = serial.Serial(commPort, baudrate=115200)
 
 
 class MainWindow(QWidget):
